@@ -1,0 +1,17 @@
+.env.dev
+.env.prod
+.env.prod.db
+docker-compose.prod.yml
+
+stderr.txt
+stdout.txt
+**/.DS_Store
+*.pyc
+
+venv/
+.idea/
+**/__pycache__/
+logs/
+
+.pre-commit-config.yaml
+backend/.flake8
