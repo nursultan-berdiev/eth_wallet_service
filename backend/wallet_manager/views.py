@@ -56,14 +56,21 @@ class WalletView(ListCreateAPIView):
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
-
+            try:
+                data = self.get_serializer_data_with_balance(serializer)
+            except Exception as e:
+                return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
             # Добавляем балансы в ответ
-            return self.get_paginated_response(self.get_serializer_data_with_balance(serializer))
+            return self.get_paginated_response(data)
 
         serializer = self.get_serializer(queryset, many=True)
 
+        try:
+            data = self.get_serializer_data_with_balance(serializer)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         # Добавляем балансы в ответ
-        return Response(self.get_serializer_data_with_balance(serializer))
+        return Response(data)
 
     def create(self, request, *args, **kwargs):
         # Стандартная реализация не подходит, т.к. нам нужно создать кошелек для каждой валюты
