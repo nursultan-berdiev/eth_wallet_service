@@ -23,7 +23,7 @@
 
 `chmod +x backend/entrypoint.sh`
 
-В файле .env.dev укажите замените yourapikeyplaceherewhithoutquotes в API_KEY на полученный в https://infura.io/ без кавычек и пробелов
+В файле .env.dev замените yourapikeyplaceherewhithoutquotes в API_KEY на полученный в https://infura.io/ без кавычек и пробелов
 
 `ETH_API_KEY=yourapikeyplaceherewhithoutquotes`
 
