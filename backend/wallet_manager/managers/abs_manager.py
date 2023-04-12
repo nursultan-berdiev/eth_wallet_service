@@ -51,3 +51,11 @@ class AbsManager(ABC):
         :return: hash: str - Хэш транзакции
         """
         pass
+
+    @abstractmethod
+    def connected(self) -> bool:
+        """
+        Абстрактный метод для проверки подключения к ноде
+        :return: bool
+        """
+        pass

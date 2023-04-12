@@ -1,11 +1,10 @@
 from django.conf import settings
 from rest_framework import status
 from rest_framework.generics import ListCreateAPIView
+from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
 from rest_framework.serializers import Serializer
 from rest_framework.views import APIView
-from rest_framework.pagination import LimitOffsetPagination
-from drf_spectacular.utils import extend_schema
 
 from .managers import CryptoManager
 from .models import Wallet

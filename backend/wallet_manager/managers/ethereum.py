@@ -5,7 +5,6 @@ from django.conf import settings
 from web3 import Web3, AsyncWeb3, AsyncHTTPProvider
 
 from .abs_manager import AbsManager
-from wallet_manager.models import Wallet
 
 
 class EthereumManager(AbsManager):
@@ -78,11 +77,6 @@ class EthereumManager(AbsManager):
         :param amount: int
         :return: str
         """
-        # переводить можно тольĸо между ĸошельĸами внутри системы
-        if not Wallet.objects.filter(public_key=to_address).exists() or \
-                not Wallet.objects.filter(public_key=from_address).exists():
-            raise ValueError('Переводить можно только между кошельками внутри системы')
-
         # сумма перевода должна быть больше чем баланс ĸошельĸа (плюс затраты на ĸомиссию сети — газ)
         if self.get_balance(from_address) < amount + self.gas * self.web3.eth.gas_price:
             raise ValueError('Сумма перевода должна быть больше, чем баланс кошелька')
@@ -95,7 +89,12 @@ class EthereumManager(AbsManager):
             'gasPrice': self.web3.eth.gas_price,
             'nonce': self.web3.eth.get_transaction_count(from_address)
         }
-        signed = self.web3.eth.account.sign_transaction(transaction, self.api_key)
-        return self.web3.eth.send_raw_transaction(signed.raw_transaction).hex()
+        signed = self.web3.eth.account.send_transaction(transaction)
+        return signed.hex()
 
-
+    def connected(self) -> bool:
+        """
+        Метод для проверки подключения к ноде
+        :return: bool
+        """
+        return self.web3.is_connected()
